@@ -13,10 +13,9 @@ install:
   - pip install fandogh-cli --upgrade
 # command to run tests
 script:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - echo $TRAVIS_COMMIT  
   - COLLECT_ERROR=True fandogh login --username=$FANDOGH_USERNAME --password=$FANDOGH_PASSWORD
-  - docker build -t fandoghpaas/vote:$TRAVIS_COMMIT ./vote
+  - fandogh image publish --version $TRAVIS_COMMIT cd ..;
   - docker build -t fandoghpaas/worker:$TRAVIS_COMMIT ./worker
   - docker build -t fandoghpaas/result:$TRAVIS_COMMIT ./result
   - docker push fandoghpaas/vote:$TRAVIS_COMMIT
